@@ -7,10 +7,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
-  <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600&display=swap');
     
     :root {
       --primary: 234 179 8;
@@ -73,21 +71,16 @@
     }
     
     @keyframes drift {
-      from { transform: translateX(-300px); }
-      to { transform: translateX(2000px); }
+      from { transform: translateX(2000px); }
+      to { transform: translateX(-300px); }
     }
     
     @keyframes road-move {
-      from { background-position: 0 0; }
-      to { background-position: -160px 0; }
+      from { background-position: -160px 0; }
+      to { background-position: 0 0; }
     }
     
     @keyframes drive {
-      0% { transform: translateX(-200px); }
-      100% { transform: translateX(calc(100vw + 200px)); }
-    }
-    
-    @keyframes drive-reverse {
       0% { transform: translateX(calc(100vw + 200px)); }
       100% { transform: translateX(-200px); }
     }
@@ -95,11 +88,6 @@
     .car {
       filter: drop-shadow(0 4px 6px rgb(0 0 0 / 0.3));
       animation: drive linear infinite;
-    }
-    
-    .car-reverse {
-      filter: drop-shadow(0 4px 6px rgb(0 0 0 / 0.3));
-      animation: drive-reverse linear infinite;
     }
     
     .task-card {
@@ -127,58 +115,9 @@
 </head>
 <body class="tail-container bg-zinc-950 text-white h-full overflow-hidden">
   <div class="flex flex-col h-screen" id="app-container">
-    <!-- LOGIN VIEW -->
-    <div id="login-view" class="flex flex-col items-center justify-center h-full bg-zinc-900">
-      <div class="text-center mb-12">
-        <div class="flex items-center justify-center gap-x-3 mb-4">
-          <div class="w-12 h-12 bg-yellow-400 rounded-2xl flex items-center justify-center text-zinc-900 text-3xl shadow-inner">🏙️</div>
-          <div>
-            <span class="logo-font text-4xl font-semibold tracking-tighter">Habit City</span>
-            <span class="text-yellow-400 text-4xl font-semibold tracking-tighter">Builder</span>
-          </div>
-        </div>
-        <p class="text-zinc-400 text-lg">Build your city one habit at a time</p>
-      </div>
-      
-      <div class="w-96 bg-zinc-800 p-8 rounded-3xl">
-        <h2 class="text-2xl font-semibold mb-6 text-center">Sign In</h2>
-        
-        <!-- Google Sign In -->
-        <button onclick="signInWithGoogle()" 
-          class="w-full flex items-center justify-center gap-x-3 bg-white text-zinc-900 py-4 rounded-2xl font-semibold mb-4 hover:bg-zinc-100 transition">
-          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-6 h-6">
-          Sign in with Google
-        </button>
-        
-        <div class="relative my-6">
-          <div class="absolute inset-0 flex items-center">
-            <div class="w-full border-t border-zinc-700"></div>
-          </div>
-          <div class="relative flex justify-center text-sm">
-            <span class="bg-zinc-800 px-2 text-zinc-400">or</span>
-          </div>
-        </div>
-        
-        <!-- Email/Password Form -->
-        <form onsubmit="createAccount(event)" class="space-y-4">
-          <input id="email" type="email" placeholder="Email" required
-            class="w-full bg-zinc-900 border border-zinc-700 focus:border-yellow-400 rounded-2xl px-5 py-4 outline-none text-white">
-          <input id="password" type="password" placeholder="Password" required
-            class="w-full bg-zinc-900 border border-zinc-700 focus:border-yellow-400 rounded-2xl px-5 py-4 outline-none text-white">
-          <button type="submit" 
-            class="w-full bg-yellow-400 hover:bg-amber-400 text-zinc-900 py-4 rounded-2xl font-semibold transition">
-            Create New Account
-          </button>
-        </form>
-        
-        <p class="text-center mt-4 text-sm text-zinc-400">
-          Already have an account? <a href="#" onclick="showSignInForm()" class="text-yellow-400 hover:underline">Sign in</a>
-        </p>
-      </div>
-    </div>
     
     <!-- DASHBOARD VIEW -->
-    <div id="dashboard-view" class="flex flex-col h-full hidden">
+    <div id="dashboard-view" class="flex flex-col h-full">
       <!-- HEADER -->
       <header class="bg-zinc-900 border-b border-zinc-800 px-6 py-4 flex items-center justify-between">
         <div class="flex items-center gap-x-3">
@@ -196,10 +135,6 @@
             <span class="tabular-nums"></span>
           </div>
           
-          <div class="flex items-center gap-x-1.5 bg-emerald-500/10 text-emerald-400 px-4 py-1 rounded-3xl text-xs font-semibold border border-emerald-500/30">
-            <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-            LIVE
-          </div>
         </div>
         
         <div class="flex items-center gap-x-3">
@@ -212,11 +147,6 @@
             class="flex items-center gap-x-2 bg-zinc-800 hover:bg-zinc-700 px-6 py-2 rounded-3xl text-sm font-semibold transition">
             <i class="fa-brands fa-github"></i>
             Connect GitHub
-          </button>
-          <button onclick="logout()" 
-            class="flex items-center gap-x-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 px-6 py-2 rounded-3xl text-sm font-semibold border border-rose-500/30 transition">
-            <i class="fa-solid fa-sign-out-alt"></i>
-            Logout
           </button>
         </div>
       </header>
@@ -444,121 +374,6 @@
   </div>
 
   <script>
-    // Google API config - REPLACE WITH YOUR OWN!
-    const CLIENT_ID = 'YOUR_CLIENT_ID.apps.googleusercontent.com';
-    const API_KEY = 'YOUR_API_KEY';
-    const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
-    const SCOPES = 'https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/fitness.activity.read';
-
-    let tokenClient;
-    let gapiInited = false;
-    let gisInited = false;
-
-    function gapiLoaded() {
-      gapi.load('client', initializeGapiClient);
-    }
-
-    async function initializeGapiClient() {
-      await gapi.client.init({
-        apiKey: API_KEY,
-        discoveryDocs: [DISCOVERY_DOC],
-      });
-      gapiInited = true;
-      maybeEnableLogin();
-    }
-
-    function gisLoaded() {
-      tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: CLIENT_ID,
-        scope: SCOPES,
-        callback: () => {}, // defined at request time
-      });
-      gisInited = true;
-      maybeEnableLogin();
-    }
-
-    function maybeEnableLogin() {
-      if (gapiInited && gisInited) {
-        // Ready to login
-      }
-    }
-
-    // ====================== AUTH FUNCTIONS ======================
-    function isLoggedIn() {
-      return localStorage.getItem('loggedIn') === 'true';
-    }
-
-    function setLoggedIn(state) {
-      localStorage.setItem('loggedIn', state);
-      document.getElementById('login-view').classList.toggle('hidden', state);
-      document.getElementById('dashboard-view').classList.toggle('hidden', !state);
-      if (state) {
-        initDashboard();
-      }
-    }
-
-    async function signInWithGoogle() {
-      try {
-        await new Promise((resolve, reject) => {
-          tokenClient.callback = (resp) => {
-            if (resp.error !== undefined) {
-              reject(resp);
-            } else {
-              resolve(resp);
-            }
-          };
-          if (gapi.client.getToken() === null) {
-            tokenClient.requestAccessToken({ prompt: 'consent' });
-          } else {
-            tokenClient.requestAccessToken({ prompt: '' });
-          }
-        });
-        setLoggedIn(true);
-        alert('Signed in with Google successfully!');
-      } catch (err) {
-        console.error('Google Sign In error:', err);
-        alert('Failed to sign in with Google.');
-      }
-    }
-
-    function createAccount(event) {
-      event.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      if (email && password) {
-        localStorage.setItem('userEmail', email);
-        // Note: Storing password in localStorage is NOT secure, for demo only
-        localStorage.setItem('userPassword', password);
-        setLoggedIn(true);
-        alert('Account created successfully!');
-      } else {
-        alert('Please enter email and password.');
-      }
-    }
-
-    function showSignInForm() {
-      // For simplicity, same form for sign in
-      // In real app, validate credentials
-      alert('Use the form to sign in with email/password.');
-    }
-
-    function logout() {
-      localStorage.removeItem('loggedIn');
-      localStorage.removeItem('userEmail');
-      localStorage.removeItem('userPassword');
-      localStorage.removeItem('githubUsername');
-      // Revoke Google token if signed in with Google
-      if (gapi.client.getToken()) {
-        google.accounts.oauth2.revoke(gapi.client.getToken().access_token);
-        gapi.client.setToken('');
-      }
-      setLoggedIn(false);
-    }
-
-    function connectGitHub() {
-      autoCompleteGitTask(); // Prompts for username if not set
-    }
-
     // ====================== DATA ======================
     let tasks = [
       {
@@ -743,11 +558,11 @@
     function renderCars() {
       const container = document.getElementById('cars-container')
       container.innerHTML = `
-        <div class="car absolute bottom-2 text-5xl" style="left:10%; animation-duration: 6s; animation-delay: 0s; color:#ef4444;">🚗</div>
-        <div class="car absolute bottom-2 text-5xl" style="left:25%; animation-duration: 9s; animation-delay: -2s; color:#3b82f6;">🚙</div>
-        <div class="car absolute bottom-2 text-5xl" style="left:45%; animation-duration: 7s; animation-delay: -4s; color:#eab308;">🚕</div>
-        <div class="car absolute bottom-2 text-5xl" style="left:65%; animation-duration: 11s; animation-delay: -1s; color:#22c55e;">🛵</div>
-        <div class="car absolute bottom-2 text-5xl" style="left:80%; animation-duration: 8s; animation-delay: -3s; color:#a855f7;">🚓</div>
+        <div class="car absolute bottom-2 text-5xl" style="left:10%; animation-duration: 6s; animation-delay: 0s; color:#ef4444; transform: scaleX(-1);">🚗</div>
+        <div class="car absolute bottom-2 text-5xl" style="left:25%; animation-duration: 9s; animation-delay: -2s; color:#3b82f6; transform: scaleX(-1);">🚙</div>
+        <div class="car absolute bottom-2 text-5xl" style="left:45%; animation-duration: 7s; animation-delay: -4s; color:#eab308; transform: scaleX(-1);">🚕</div>
+        <div class="car absolute bottom-2 text-5xl" style="left:65%; animation-duration: 11s; animation-delay: -1s; color:#22c55e; transform: scaleX(-1);">🛵</div>
+        <div class="car absolute bottom-2 text-5xl" style="left:80%; animation-duration: 8s; animation-delay: -3s; color:#a855f7; transform: scaleX(-1);">🚓</div>
       `
     }
     
@@ -1009,62 +824,8 @@
       }
     }
     
-    // ====================== GOOGLE CALENDAR INTEGRATION ======================
-    async function autoCompleteCalendarTask() {
-      const calTask = tasks.find(t => t.name === 'Attend Calendar Event');
-      if (!calTask || calTask.completed) return;
-
-      if (!gapiInited || !gisInited) {
-        alert('Google API not ready yet. Try again later.');
-        return;
-      }
-
-      try {
-        // Check if token exists, if not prompt for consent
-        if (gapi.client.getToken() === null) {
-          await new Promise((resolve, reject) => {
-            tokenClient.callback = (resp) => {
-              if (resp.error !== undefined) {
-                reject(resp);
-              } else {
-                resolve(resp);
-              }
-            };
-            tokenClient.requestAccessToken({ prompt: 'consent' });
-          });
-        }
-
-        // Fetch today's events
-        const today = new Date();
-        const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate()).toISOString();
-        const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1).toISOString();
-
-        const request = {
-          'calendarId': 'primary',
-          'timeMin': startOfDay,
-          'timeMax': endOfDay,
-          'showDeleted': false,
-          'singleEvents': true,
-          'maxResults': 1, // Just need to check if any exist
-          'orderBy': 'startTime',
-        };
-
-        const response = await gapi.client.calendar.events.list(request);
-        const events = response.result.items;
-
-        if (events && events.length > 0) {
-          calTask.completed = true;
-          saveToLocal();
-          renderTasks();
-          updateProgressUI();
-          alert('✅ Calendar event detected today! Task completed.');
-        } else {
-          alert('No calendar events today.');
-        }
-      } catch (err) {
-        console.error('Error with Google Calendar:', err);
-        alert('Failed to check Google Calendar. Make sure you have granted permissions.');
-      }
+    function connectGitHub() {
+      autoCompleteGitTask(); // Prompts for username if not set
     }
     
     // ====================== INITIALIZE ======================
@@ -1092,10 +853,9 @@
         }
       }, 800)
       
-      // Auto check APIs after load (give time for gapi to init)
+      // Auto check APIs after load
       setTimeout(() => {
         autoCompleteGitTask();
-        autoCompleteCalendarTask();
       }, 1000);
       
       // Keyboard shortcuts
@@ -1106,16 +866,11 @@
         }
       })
       
-      console.log('%c🚀 Habit City Builder ready! Google Calendar and GitHub APIs integrated.', 'color:#eab308; font-family:monospace')
+      console.log('%c🚀 Habit City Builder ready!', 'color:#eab308; font-family:monospace')
     }
 
     // Initial check
-    if (isLoggedIn()) {
-      setLoggedIn(true);
-    } else {
-      setLoggedIn(false);
-    }
+    initDashboard();
   </script>
 </body>
 </html>
-```
